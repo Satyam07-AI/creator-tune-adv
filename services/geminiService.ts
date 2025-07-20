@@ -12,14 +12,16 @@ import { getLanguageName, Language } from './localization';
  * @throws {Error} If the API_KEY environment variable is not set.
  */
 const getAiClient = (): GoogleGenAI => {
-  // The API key is now accessed via process.env, which is populated by Vite's `define` config.
-  // This aligns with the provided coding guidelines and fixes the access error.
-  const apiKey = process.env.API_KEY;
+  const apiKey = import.meta.env.VITE_API_KEY;
+
   if (!apiKey || apiKey === 'undefined') {
     throw new Error("API Key is not configured. Please set the VITE_API_KEY environment variable in your .env file.");
   }
+
   return new GoogleGenAI({ apiKey });
 }
+
+
 
 const getTranslationInstruction = (language: Language): string => {
     if (language === 'en') return '';
